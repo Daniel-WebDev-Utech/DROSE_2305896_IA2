@@ -1,0 +1,126 @@
+<!-- Student: Daniel Rose - 2305896 | Module: CIT2011 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - StudyStay Housing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>StudyStay</h1>
+                <span>Premium Student Housing</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Properties</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html" class="active">Register</a></li>
+                    <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Registration Form Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-form">
+                    <h2>Join StudyStay</h2>
+                    <p>Create your account to find the perfect student home</p>
+                    
+                    <form id="registerForm" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <span class="error-message" id="firstName-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <span class="error-message" id="lastName-error"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message" id="email-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" required>
+                            <span class="error-message" id="dob-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regUsername">Username</label>
+                            <input type="text" id="regUsername" name="username" required>
+                            <span class="error-message" id="regUsername-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regPassword">Password</label>
+                            <input type="password" id="regPassword" name="password" required>
+                            <span class="error-message" id="regPassword-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <span class="error-message" id="confirmPassword-error"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-full">Create Account</button>
+                        
+                        <div class="auth-links">
+                            <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="auth-image">
+                    <img src="Assets/register-image.jpg" alt="Happy students in their new accommodation">
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>StudyStay</h3>
+                    <p>Your trusted partner in student accommodation</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Click <a href=about.html#ContactInformation>here</a> to contact</h4>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

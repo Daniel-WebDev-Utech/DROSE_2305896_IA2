@@ -1,0 +1,122 @@
+<!-- Student: Daniel Rose - 2305896 | Module: CIT2011 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - StudyStay Housing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>StudyStay</h1>
+                <span>Premium Student Housing</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Properties</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <h1>Checkout</h1>
+            
+            <div class="checkout-container">
+                <div class="checkout-form">
+                    <h2>Shipping Details</h2>
+                    <form id="checkoutForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shippingFirstName">First Name</label>
+                                <input type="text" id="shippingFirstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="shippingLastName">Last Name</label>
+                                <input type="text" id="shippingLastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="shippingAddress">Address</label>
+                            <input type="text" id="shippingAddress" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shippingCity">City</label>
+                                <input type="text" id="shippingCity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="shippingParish">Parish</label>
+                                <select id="shippingParish" required>
+                                    <option value="">Select Parish</option>
+                                    <option value="kingston">Kingston</option>
+                                    <option value="st-andrew">St. Andrew</option>
+                                    <option value="st-catherine">St. Catherine</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentAmount">Payment Amount</label>
+                            <input type="number" id="paymentAmount" readonly>
+                        </div>
+                        
+                        <div class="checkout-actions">
+                            <button type="button" class="btn btn-secondary" id="cancelCheckout">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="confirmCheckout">Confirm Order</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div id="checkoutSummary">
+                        <!-- Order summary will be loaded here -->
+                    </div>
+                </div>
+            </div>
+                <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>StudyStay</h3>
+                    <p>Your trusted partner in student accommodation</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Click <a href=about.html#ContactInformation>here</a> to contact</h4>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
