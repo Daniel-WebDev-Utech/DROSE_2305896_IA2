@@ -1,0 +1,207 @@
+<!-- analytics-dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - StudyStay Housing</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .analytics-section {
+            padding: 40px 20px;
+            background: #f9f9f9;
+            min-height: calc(100vh - 100px);
+        }
+
+        .analytics-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .analytics-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .analytics-card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .data-count {
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .total-row {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 200px;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar-fill {
+            background: linear-gradient(to top, #007bff, #0056b3);
+            border-radius: 5px 5px 0 0;
+            width: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .bar-fill:hover {
+            background: linear-gradient(to top, #0056b3, #003d82);
+            transform: scaleY(1.05);
+        }
+
+        .bar-label {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>StudyStay</h1>
+                <span>Premium Student Housing</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Properties</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="invoices.html">My Invoices</a></li>
+                    <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Analytics Section -->
+    <section class="analytics-section">
+        <div class="analytics-container">
+            <h1>Analytics Dashboard</h1>
+            <p style="color: #666; margin-bottom: 30px;">User Demographics Overview</p>
+
+            <div class="analytics-grid">
+                <!-- Gender Distribution Card -->
+                <div class="analytics-card">
+                    <h2>Gender Distribution</h2>
+                    <div id="genderData"></div>
+                    <div class="chart-container">
+                        <p style="color: #999; font-size: 14px;">Distribution Chart</p>
+                        <div class="bar-chart" id="genderChart"></div>
+                    </div>
+                </div>
+
+                <!-- Age Group Distribution Card -->
+                <div class="analytics-card">
+                    <h2>Age Group Distribution</h2>
+                    <div id="ageGroupData"></div>
+                    <div class="chart-container">
+                        <p style="color: #999; font-size: 14px;">Distribution Chart</p>
+                        <div class="bar-chart" id="ageChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>StudyStay</h3>
+                    <p>Your trusted partner in student accommodation</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="invoices.html">My Invoices</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Click <a href="about.html#ContactInformation">here</a> to contact</h4>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+   <script src="dashboard.js"></script>
+</body>
+</html>
