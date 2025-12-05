@@ -1,4 +1,5 @@
 <!-- Student: Daniel Rose - 2305896 | Module: CIT2011 -->
+<!-- Student: Shavon Mitchener - 2300712 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,7 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="login.html">Login</a></li>
                     <li><a href="register.html">Register</a></li>
+                    <li><a href="invoices.html">My Invoices</a></li>
                     <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
                 </ul>
             </nav>
@@ -88,35 +90,43 @@
                     </div>
                 </div>
             </div>
-                <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>StudyStay</h3>
-                    <p>Your trusted partner in student accommodation</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="products.html">Properties</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="login.html">Login</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Click <a href=about.html#ContactInformation>here</a> to contact</h4>
-                </div>
+            
+            <!-- Invoice Receipt Display Area -->
+            <div id="invoiceReceipt" style="display: none;">
+                <!-- Receipt will be shown here after purchase -->
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
+            
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h3>StudyStay</h3>
+                            <p>Your trusted partner in student accommodation</p>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="products.html">Properties</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="invoices.html">My Invoices</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Click <a href="about.html#ContactInformation">here</a> to contact</h4>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </section>
 
+    <!-- Load scripts in correct order -->
     <script src="script.js"></script>
+    <script src="invoice.js"></script>
 </body>
 </html>
