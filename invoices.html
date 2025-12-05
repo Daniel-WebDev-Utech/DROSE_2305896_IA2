@@ -1,0 +1,111 @@
+<!-- Student: Daniel Rose - 2305896 | Module: CIT2011 -->
+<!-- Student: Shavon Mitchener - 2300712 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Invoices - StudyStay Housing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>StudyStay</h1>
+                <span>Premium Student Housing</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Properties</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="invoices.html" class="active">My Invoices</a></li>
+                    <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Invoices Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>My Invoices</h1>
+            <p>View all your purchase history and invoices</p>
+        </div>
+    </section>
+
+    <!-- Invoices Section -->
+    <section class="invoices-section">
+        <div class="container">
+            <!-- Invoice Filters -->
+            <div class="invoice-filters">
+                <div class="filter-group">
+                    <label for="filterStatus">Filter by Status:</label>
+                    <select id="filterStatus">
+                        <option value="all">All Invoices</option>
+                        <option value="paid">Paid</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="btn btn-secondary" id="refreshInvoices">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Invoices List -->
+            <div class="invoices-container" id="invoicesList">
+                <div class="loading-message">
+                    <p>Loading your invoices...</p>
+                </div>
+            </div>
+
+            <!-- No Invoices Message -->
+            <div class="no-invoices" id="noInvoicesMessage" style="display: none;">
+                <div class="empty-state">
+                    <h3>No Invoices Found</h3>
+                    <p>You haven't made any purchases yet.</p>
+                    <a href="products.html" class="btn btn-primary">Browse Properties</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>StudyStay</h3>
+                    <p>Your trusted partner in student accommodation</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="invoices.html">My Invoices</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Click <a href="about.html#ContactInformation">here</a> to contact</h4>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load scripts -->
+    <script src="script.js"></script>
+    <script src="invoice.js"></script>
+    <script src="invoices-display.js"></script>
+</body>
+</html>
