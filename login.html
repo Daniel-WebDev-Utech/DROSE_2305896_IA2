@@ -1,5 +1,4 @@
 <!-- Student: Daniel Rose - 2305896 | Module: CIT2011 -->
-<!-- Student: Shavon Mitchener - 2300712 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
 </head>
 <body>
     <!-- Navigation Header -->
-    <header class="navbar">
+      <header class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <h1>StudyStay</h1>
@@ -18,19 +17,20 @@
             </div>
             <nav class="nav-menu">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html" >Home</a></li>
                     <li><a href="products.html">Properties</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="login.html" class="active">Login</a></li>
                     <li><a href="register.html">Register</a></li>
                     <li><a href="invoices.html">My Invoices</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
                     <li><a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Login Form Section -->
+    <!-- Login Section -->
     <section class="auth-section">
         <div class="container">
             <div class="auth-container">
@@ -40,21 +40,19 @@
                     
                     <form id="loginForm" class="form">
                         <div class="form-group">
-                            <label for="username">Username or Email</label>
-                            <input type="text" id="username" name="username" required>
-                            <span class="error-message" id="username-error"></span>
+                            <label for="trn">TRN (Tax Registration Number)</label>
+                            <input type="text" id="trn" name="trn" placeholder="123-456-789" maxlength="11">
+                            <span class="error-message" id="trn-error"></span>
                         </div>
                         
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" id="password" name="password" required>
+                            <input type="password" id="password" name="password">
                             <span class="error-message" id="password-error"></span>
                         </div>
                         
-                        <div class="form-group checkbox-group">
-                        </div>
-                        
-                        <button type="submit" class="btn btn-full">Sign In</button>
+
+                    <button type="submit" class="btn btn-primary btn-full">Sign In</button>
                         
                         <div class="auth-links">
                             <a href="#" class="forgot-password">Forgot Password?</a>
@@ -69,33 +67,6 @@
             </div>
         </div>
     </section>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>StudyStay</h3>
-                    <p>Your trusted partner in student accommodation</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="products.html">Properties</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="invoices.html">My Invoices</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Click <a href="about.html#ContactInformation">here</a> to contact</h4>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 StudyStay Housing. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
