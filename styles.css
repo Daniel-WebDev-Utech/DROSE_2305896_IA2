@@ -1,5 +1,5 @@
-/* Student: Daniel Rose - 2305896 | Module: CIT2011 */
-/* Student: Shavon Mitchener - 2300712*/
+/* CSS for StudyStay Housing Website */
+/* Student: [Your Name] | ID: [Your ID] | Module: CIT2011 */
 
 /* CSS Variables */
 :root {
@@ -66,7 +66,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 20px;
+  padding: 1rem 15px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -84,7 +84,7 @@ p {
 .nav-menu ul {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 0.5rem;
 }
 
 .nav-menu a {
@@ -122,14 +122,6 @@ p {
 
 .btn:hover {
   background: #2980b9;
-}
-
-.btn-primary {
-  background: var(--secondary-color);
-}
-
-.btn-secondary {
-  background: #95a5a6;
 }
 
 .btn-full {
@@ -186,10 +178,11 @@ p {
   margin-bottom: 3rem;
 }
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+.features-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .feature-card {
@@ -197,7 +190,6 @@ p {
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease;
 }
 
 .feature-card:hover {
@@ -282,21 +274,10 @@ p {
   border-color: var(--secondary-color);
 }
 
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.checkbox-group input {
-  width: auto;
-}
-
 .error-message {
   color: var(--accent-color);
   font-size: 0.9rem;
   margin-top: 0.5rem;
-  display: block;
 }
 
 .auth-links {
@@ -326,6 +307,27 @@ p {
   color: rgba(255,255,255,0.8);
 }
 
+/* Filters */
+.filters {
+  padding: 2rem 0;
+  background: var(--light-gray);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filter-controls select {
+  padding: 10px 15px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--white);
+  min-width: 150px;
+}
+
 /* Products Grid */
 .products {
   padding: 4rem 0;
@@ -342,7 +344,6 @@ p {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  transition: transform 0.3s ease;
 }
 
 .product-card:hover {
@@ -374,6 +375,16 @@ p {
   margin-bottom: 1rem;
 }
 
+.product-features {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.product-features li {
+  padding: 0.25rem 0;
+  color: var(--text-light);
+}
+
 .product-price {
   font-size: 1.5rem;
   font-weight: 600;
@@ -400,19 +411,31 @@ p {
   background: var(--white);
   border-radius: var(--border-radius);
   padding: 2rem;
-  box-shadow: var(--shadow);
 }
 
 .cart-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--border-color);
 }
 
 .cart-item:last-child {
   border-bottom: none;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .item-details {
@@ -425,7 +448,24 @@ p {
 }
 
 .item-price {
-  color: var(--text-light);
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 1rem;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border-color);
+  background: var(--white);
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .remove-btn {
@@ -435,7 +475,6 @@ p {
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 0.9rem;
 }
 
 .summary-row {
@@ -477,7 +516,6 @@ p {
   background: var(--white);
   border-radius: var(--border-radius);
   padding: 2rem;
-  box-shadow: var(--shadow);
 }
 
 .checkout-actions {
@@ -497,16 +535,19 @@ p {
 }
 
 .about-content {
-  display: grid;
+  display: flex;
   grid-template-columns: 2fr 1fr;
   gap: 3rem;
   margin-bottom: 4rem;
-  align-items: center;
+  text-align: center;
 }
 
 .about-text ul {
   list-style: none;
-  margin: 1rem 0;
+}
+
+.about-text h2 {
+  text-align: center;
 }
 
 .about-text li {
@@ -517,10 +558,10 @@ p {
 
 .about-text li::before {
   content: "✓";
-  position: absolute;
+  position: relative;
   left: 0;
+  padding-right: 1rem;
   color: #27ae60;
-  font-weight: bold;
 }
 
 .about-image img {
@@ -532,7 +573,6 @@ p {
   background: var(--light-gray);
   padding: 3rem;
   border-radius: var(--border-radius);
-  margin-top: 4rem;
 }
 
 .contact-details {
@@ -619,231 +659,6 @@ p {
   text-align: right;
 }
 
-/* ============================================
-   INVOICE SYSTEM STYLES
-   ============================================ */
-
-/* Invoices Page */
-.invoices-section {
-  padding: 120px 0 80px;
-  background: var(--light-gray);
-}
-
-.invoice-filters {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  background: var(--white);
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.filter-group label {
-  font-weight: 500;
-}
-
-.filter-group select {
-  padding: 8px 12px;
-  border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
-}
-
-.invoices-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.invoice-container {
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  padding: 2rem;
-  margin-bottom: 1rem;
-}
-
-.invoice-header {
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.invoice-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.invoice-date {
-  color: var(--text-light);
-  font-size: 0.9rem;
-}
-
-.invoice-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.invoice-section {
-  background: var(--light-gray);
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-}
-
-.invoice-section h3 {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-}
-
-.invoice-items {
-  margin: 2rem 0;
-}
-
-.invoice-items-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5rem 0;
-}
-
-.invoice-items-table th {
-  background: var(--light-gray);
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--border-color);
-}
-
-.invoice-items-table td {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.invoice-items-table tr:last-child td {
-  border-bottom: none;
-}
-
-.invoice-totals {
-  background: var(--light-gray);
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  margin-top: 2rem;
-}
-
-.total-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.total-row:last-child {
-  border-bottom: none;
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: var(--secondary-color);
-}
-
-.invoice-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border-color);
-}
-
-.invoice-actions .btn {
-  flex: 1;
-}
-
-/* Invoice Status Badges */
-.invoice-status {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-left: 10px;
-}
-
-.status-paid {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-pending {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-cancelled {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-/* Invoice Receipt Styles */
-.receipt-message {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  margin: 2rem 0;
-  color: #155724;
-  box-shadow: var(--shadow);
-}
-
-.receipt-content h3 {
-  color: #155724;
-  margin-bottom: 0.5rem;
-  font-size: 1.3rem;
-}
-
-.receipt-content p {
-  color: #155724;
-  margin-bottom: 0.5rem;
-}
-
-/* Loading and Error States */
-.loading-message {
-  text-align: center;
-  padding: 3rem;
-  color: var(--text-light);
-}
-
-.no-invoices {
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-.empty-state {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.empty-state h3 {
-  margin-bottom: 1rem;
-}
-
-.error-message {
-  text-align: center;
-  padding: 2rem;
-  background: #f8d7da;
-  border-radius: var(--border-radius);
-  color: #721c24;
-}
-
 /* Responsive Design */
 @media (max-width: 950px) {
   .hero {
@@ -854,17 +669,15 @@ p {
   .cart-container,
   .checkout-container,
   .about-content,
-  .contact-details,
-  .invoice-details {
+  .contact-details {
     grid-template-columns: 1fr;
   }
   .nav-menu ul {
     gap: 1rem;
   }
-  .invoice-filters {
+  .features-flex {
     flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
+    align-items: center;
   }
 }
 
@@ -904,9 +717,7 @@ p {
   .products-grid {
     grid-template-columns: 1fr;
   }
-  .cart-section,
-  .checkout-section,
-  .invoices-section {
+  .cart-section {
     padding: 100px 0 40px;
   }
   .cart-item {
@@ -915,8 +726,7 @@ p {
     gap: 1rem;
   }
   .cart-actions,
-  .checkout-actions,
-  .invoice-actions {
+  .checkout-actions {
     flex-direction: column;
   }
   .auth-section {
@@ -931,12 +741,10 @@ p {
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.5rem; }
   h3 { font-size: 1.2rem; }
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  .invoice-title-row {
+  .features-flex {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  }
+  .feature-card {
+    width: 100%;
   }
 }
