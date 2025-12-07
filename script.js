@@ -1,6 +1,6 @@
 /* JavaScript for StudyStay Housing Website */
 /* Student: Daniel Rose - 2305896 | Module: CIT2011 */
-
+/* Justine Burrell 2304959*/
 /* ============================================
    IA#2 - HELPER FUNCTIONS
    ============================================ */
@@ -377,6 +377,17 @@ function removeFromCart(id) {
     updateCartCount();
     updateCartDisplay();
 }
+function removeAll() {
+            const list = document.getElementById('itemList');
+            const btn = document.querySelector('.btn-remove-all');
+            
+            // Remove all list items
+            list.innerHTML = '';
+            
+            // Disable button after removing
+            btn.disabled = true;
+            btn.textContent = 'All Items Removed';
+        }
 
 /* Update cart count in navbar */
 function updateCartCount() {
@@ -643,3 +654,4 @@ function initCheckoutForm() {
         }
     });
 }
+
