@@ -700,15 +700,7 @@ function displayCheckoutItems() {
         subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
     }
     
-    // ARITHMETIC: Calculate discount
-    var discountAmount = 0;
-    if (appliedDiscount) {
-        discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
-    }
-    
-    // ARITHMETIC: Calculate subtotal after discount
-    var subtotalAfterDiscount = subtotal - discountAmount;
-    
+   
     // ARITHMETIC: Calculate tax (GCT 15%)
     var tax = subtotalAfterDiscount * 0.15;
     
@@ -825,27 +817,15 @@ function initCheckoutForm() {
             for (var i = 0; i < cart.length; i++) {
                 subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
             }
-            
-            var discountAmount = 0;
-            if (appliedDiscount) {
-                discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
-            }
-            
-            var subtotalAfterDiscount = subtotal - discountAmount;
-            var tax = subtotalAfterDiscount * 0.15;
-            var total = subtotalAfterDiscount + tax;
+           
             
             alert('Thank you for your order, ' + firstName + ' ' + lastName + '! Total: $' + total.toFixed(2));
             
-            // Clear cart and discount
-            cart = [];
-            appliedDiscount = null;
-            saveCart();
-            localStorage.removeItem('appliedDiscount');
-            
+           
             // Redirect to home page
             window.location.href = 'index.html';
         }
     });
 }
+
 
