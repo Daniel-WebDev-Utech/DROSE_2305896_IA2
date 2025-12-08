@@ -24,7 +24,7 @@ function showError(inputId, message) {
         var error = document.createElement('span');
         error.className = 'error-message';
         error.textContent = message;
-        error.id = inputId + '-error'; // Add ID for easier targeting
+        error.id = inputId + '-error';
         input.parentNode.appendChild(error);
     }
 }
@@ -804,3 +804,4 @@ function initCheckoutForm() {
         }
     });
 }
+
