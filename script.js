@@ -48,6 +48,16 @@ function clearErrors(form) {
    ============================================ */
 
 var cart = [];
+var appliedDiscount = null;
+
+/* Discount code database - store valid promo codes*/
+var discountCodes = {
+    'SAVE10': { type: 'percentage', value: 10, description: '10% off' },
+    'SAVE20': { type: 'percentage', value: 20, description: '20% off' },
+    'STUDENT15': { type: 'percentage', value: 15, description: '15% student discount' },
+    'FLAT50': { type: 'fixed', value: 50, description: '$50 off' },
+    'WELCOME': { type: 'percentage', value: 25, description: '25% welcome discount' }
+};
 
 /* Load cart from localStorage */
 function loadCart() {
@@ -57,6 +67,12 @@ function loadCart() {
         for (var i = 0; i < cart.length; i++) {
             cart[i].price = Number(cart[i].price);
         }
+    }
+    
+    // Load applied discount if exists
+    var savedDiscount = localStorage.getItem('appliedDiscount');
+    if (savedDiscount) {
+        appliedDiscount = JSON.parse(savedDiscount);
     }
 }
 
@@ -75,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initCart();
     initCheckout();
     initCheckoutForm();
+    initRemoveAllButton();
+    initDiscountCode();
     updateCartCount();
     updateCartDisplay();
     displayCheckoutItems();
@@ -169,7 +187,7 @@ function authenticateUser(trn, password) {
     
     return null;
 }
-/*DR*/
+
 /* Registration Form Validation with TRN */
 function setupRegisterValidation(form) {
     form.addEventListener('submit', function(e) {
@@ -255,7 +273,6 @@ function setupRegisterValidation(form) {
     });
 }
 
-/*DR*/
 /* Validate TRN Format: 123-456-789 */
 function isValidTRN(trn) {
     // Regular expression for format: 123-456-789 (9 digits with 2 hyphens)
@@ -273,7 +290,7 @@ function isEmailRegistered(email) {
     }
     return false;
 }
-/*DR*/
+
 /* Save user to localStorage as array of objects */
 function saveUserToLocalStorage(user) {
     var users = getUsersFromLocalStorage();
@@ -290,7 +307,6 @@ function getUsersFromLocalStorage() {
     return [];
 }
 
-/*DR*/
 /* Format TRN as user types */
 document.addEventListener('DOMContentLoaded', function() {
     var trnInput = document.getElementById('trn');
@@ -377,19 +393,35 @@ function removeFromCart(id) {
     updateCartCount();
     updateCartDisplay();
 }
-function removeAll() {
-   /*Connect Remove All button to clearCart function*/
+
+/* Initialize Remove All Button */
+function initRemoveAllButton() {
+    var removeAllBtn = document.getElementById('removeAllBtn');
+    
     if (removeAllBtn) {
         removeAllBtn.addEventListener('click', function() {
             clearCart();
         });
-            /* Remove all list items*/
-            list.innerHTML = '';
-            
-            /* Disable button after removing*/
-            btn.disabled = true;
-            btn.textContent = 'All Items Removed';
-        }
+    }
+}
+
+/* Clear all items from cart */
+function clearCart() {
+    if (cart.length === 0) {
+        alert('Your cart is already empty!');
+        return;
+    }
+    
+    if (confirm('Are you sure you want to remove all items from your cart?')) {
+        cart = [];
+        appliedDiscount = null;
+        saveCart();
+        localStorage.removeItem('appliedDiscount');
+        updateCartCount();
+        updateCartDisplay();
+        alert('Cart cleared!');
+    }
+}
 
 /* Update cart count in navbar */
 function updateCartCount() {
@@ -404,40 +436,36 @@ function updateCartCount() {
     }
 }
 
-/* Update cart display on cart page */
-function updateCartDisplay() {
-    var cartContainer = document.getElementById('cartItems');
-    var subtotalElement = document.getElementById('subtotal');
-    var taxElement = document.getElementById('tax');
-    var totalElement = document.getElementById('total');
-    
-    if (!cartContainer) {
-        return;
-    }
-    
-    /*ARITHMETIC: Calculate subtotal*/
-    var subtotal = 0;
-    for (var i = 0; i < cart.length; i++) {
-        var itemPrice = Number(cart[i].price);
-        var itemQty = cart[i].quantity;
-        subtotal = subtotal + (itemPrice * itemQty);
-    }
-    
-    /*ARITHMETIC: Calculate tax (GCT 15%) */
-    var tax = subtotal * 0.15;
+/* ============================================
+   DISCOUNT CODE FUNCTIONS
+   ============================================ */
 
-  /* Discount code database - store valid promo codes*/
-const discountCodes = {
-    'SAVE10': { type: 'percentage', value: 10, description: '10% off' },
-    'SAVE20': { type: 'percentage', value: 20, description: '20% off' },
-    'STUDENT15': { type: 'percentage', value: 15, description: '15% student discount' },
-    'FLAT50': { type: 'fixed', value: 50, description: '$50 off' },
-    'WELCOME': { type: 'percentage', value: 25, description: '25% welcome discount' }
-};
-   
-   /* Function to calculate discount amount*/
+/* Initialize discount code functionality */
+function initDiscountCode() {
+    var applyDiscountBtn = document.getElementById('applyDiscountBtn');
+    var removeDiscountBtn = document.getElementById('removeDiscountBtn');
+    
+    if (applyDiscountBtn) {
+        applyDiscountBtn.addEventListener('click', function() {
+            applyDiscountCode();
+        });
+    }
+    
+    if (removeDiscountBtn) {
+        removeDiscountBtn.addEventListener('click', function() {
+            removeDiscount();
+        });
+    }
+    
+    // Show applied discount if exists
+    if (appliedDiscount) {
+        showAppliedDiscount();
+    }
+}
+
+/* Function to calculate discount amount */
 function calculateDiscount(subtotal, discountCode) {
-    const discount = discountCodes[discountCode.toUpperCase()];
+    var discount = discountCodes[discountCode.toUpperCase()];
     
     if (!discount) {
         return 0;
@@ -454,70 +482,147 @@ function calculateDiscount(subtotal, discountCode) {
     return 0;
 }
 
-/* Function to apply discount code*/
+/* Function to apply discount code */
 function applyDiscountCode() {
-    const discountInput = document.getElementById('discount-code');
-    const discountCode = discountInput.value.trim().toUpperCase();
-    const messageDiv = document.getElementById('discount-message');
+    var discountInput = document.getElementById('discountCodeInput');
     
-    /*Validate discount code*/
+    if (!discountInput) {
+        return;
+    }
+    
+    var discountCode = discountInput.value.trim().toUpperCase();
+    
+    // Validate discount code
     if (!discountCode) {
-        showDiscountMessage('Please enter a discount code', 'error');
+        alert('Please enter a discount code');
         return;
     }
     
     if (!discountCodes[discountCode]) {
-        showDiscountMessage('Invalid discount code', 'error');
+        alert('Invalid discount code');
         return;
     }
     
-    /* Calculate discount*/
-    const subtotal = calculateSubtotal();
-    const discountAmount = calculateDiscount(subtotal, discountCode);
+    // Calculate subtotal
+    var subtotal = 0;
+    for (var i = 0; i < cart.length; i++) {
+        subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
+    }
+    
+    // Calculate discount
+    var discountAmount = calculateDiscount(subtotal, discountCode);
     
     if (discountAmount === 0) {
-        showDiscountMessage('Discount cannot be applied to this order', 'error');
+        alert('Discount cannot be applied to this order');
         return;
     }
     
-    /*Store applied discount*/
+    // Store applied discount
     appliedDiscount = {
         code: discountCode,
         amount: discountAmount,
         description: discountCodes[discountCode].description
     };
     
-    /*Save to localStorage*/
+    // Save to localStorage
     localStorage.setItem('appliedDiscount', JSON.stringify(appliedDiscount));
     
-    /* Update UI*/
-    showDiscountMessage(`${discountCodes[discountCode].description} applied successfully!`, 'success');
+    // Update UI
+    alert(discountCodes[discountCode].description + ' applied successfully!');
     discountInput.value = '';
-    updateCartSummary();
+    updateCartDisplay();
     showAppliedDiscount();
 }
+
+/* Remove applied discount */
+function removeDiscount() {
+    appliedDiscount = null;
+    localStorage.removeItem('appliedDiscount');
+    alert('Discount removed');
+    updateCartDisplay();
+    hideAppliedDiscount();
+}
+
+/* Show applied discount in UI */
+function showAppliedDiscount() {
+    var appliedDiscountDiv = document.getElementById('appliedDiscountInfo');
     
-    /* ARITHMETIC: Calculate total*/
-    var total = subtotal + tax;
+    if (appliedDiscountDiv && appliedDiscount) {
+        appliedDiscountDiv.innerHTML = '<strong>Applied:</strong> ' + appliedDiscount.code + ' (' + appliedDiscount.description + ')';
+        appliedDiscountDiv.style.display = 'block';
+    }
+}
+
+/* Hide applied discount from UI */
+function hideAppliedDiscount() {
+    var appliedDiscountDiv = document.getElementById('appliedDiscountInfo');
     
-    /* DOM MANIPULATION: Update summary display*/
+    if (appliedDiscountDiv) {
+        appliedDiscountDiv.style.display = 'none';
+    }
+}
+
+/* ============================================
+   CART DISPLAY
+   ============================================ */
+
+/* Update cart display on cart page */
+function updateCartDisplay() {
+    var cartContainer = document.getElementById('cartItems');
+    var subtotalElement = document.getElementById('subtotal');
+    var taxElement = document.getElementById('tax');
+    var discountElement = document.getElementById('discount');
+    var totalElement = document.getElementById('total');
+    
+    if (!cartContainer) {
+        return;
+    }
+    
+    // ARITHMETIC: Calculate subtotal
+    var subtotal = 0;
+    for (var i = 0; i < cart.length; i++) {
+        var itemPrice = Number(cart[i].price);
+        var itemQty = cart[i].quantity;
+        subtotal = subtotal + (itemPrice * itemQty);
+    }
+    
+    // ARITHMETIC: Calculate discount
+    var discountAmount = 0;
+    if (appliedDiscount) {
+        discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
+        appliedDiscount.amount = discountAmount; // Update amount
+    }
+    
+    // ARITHMETIC: Calculate subtotal after discount
+    var subtotalAfterDiscount = subtotal - discountAmount;
+    
+    // ARITHMETIC: Calculate tax (GCT 15%) on discounted subtotal
+    var tax = subtotalAfterDiscount * 0.15;
+    
+    // ARITHMETIC: Calculate total
+    var total = subtotalAfterDiscount + tax;
+    
+    // DOM MANIPULATION: Update summary display
     if (subtotalElement) {
         subtotalElement.textContent = '$' + subtotal.toFixed(2);
     }
     if (taxElement) {
         taxElement.textContent = '$' + tax.toFixed(2);
     }
+    if (discountElement) {
+        discountElement.textContent = '-$' + discountAmount.toFixed(2);
+    }
     if (totalElement) {
         totalElement.textContent = '$' + total.toFixed(2);
     }
     
-    /* Check if cart is empty*/
+    // Check if cart is empty
     if (cart.length === 0) {
         cartContainer.innerHTML = '<p>Your cart is empty.</p>';
         return;
     }
     
-    /* Build cart items HTML*/
+    // Build cart items HTML
     var html = '';
     
     for (var j = 0; j < cart.length; j++) {
@@ -536,6 +641,11 @@ function applyDiscountCode() {
     }
     
     cartContainer.innerHTML = html;
+    
+    // Show applied discount if exists
+    if (appliedDiscount) {
+        showAppliedDiscount();
+    }
 }
 
 /* Checkout and Clear Cart buttons */
@@ -554,20 +664,6 @@ function initCheckout() {
             clearCart();
         });
     }
-}
-
-/* Clear all items from cart */
-function clearCart() {
-    if (cart.length === 0) {
-        alert('Your cart is already empty!');
-        return;
-    }
-    
-    cart = [];
-    saveCart();
-    updateCartCount();
-    updateCartDisplay();
-    alert('Cart cleared!');
 }
 
 /* Checkout function - redirect to checkout page */
@@ -604,11 +700,20 @@ function displayCheckoutItems() {
         subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
     }
     
+    // ARITHMETIC: Calculate discount
+    var discountAmount = 0;
+    if (appliedDiscount) {
+        discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
+    }
+    
+    // ARITHMETIC: Calculate subtotal after discount
+    var subtotalAfterDiscount = subtotal - discountAmount;
+    
     // ARITHMETIC: Calculate tax (GCT 15%)
-    var tax = subtotal * 0.15;
+    var tax = subtotalAfterDiscount * 0.15;
     
     // ARITHMETIC: Calculate total
-    var total = subtotal + tax;
+    var total = subtotalAfterDiscount + tax;
     
     // DOM MANIPULATION: Update payment amount field
     if (paymentAmount) {
@@ -633,6 +738,13 @@ function displayCheckoutItems() {
     html = html + '<span>Subtotal:</span>';
     html = html + '<span>$' + subtotal.toFixed(2) + '</span>';
     html = html + '</div>';
+    
+    if (discountAmount > 0) {
+        html = html + '<div class="summary-row">';
+        html = html + '<span>Discount (' + appliedDiscount.code + '):</span>';
+        html = html + '<span>-$' + discountAmount.toFixed(2) + '</span>';
+        html = html + '</div>';
+    }
     
     html = html + '<div class="summary-row">';
     html = html + '<span>Tax (GCT 15%):</span>';
@@ -713,20 +825,26 @@ function initCheckoutForm() {
             for (var i = 0; i < cart.length; i++) {
                 subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
             }
-            var tax = subtotal * 0.15;
-            var total = subtotal + tax;
+            
+            var discountAmount = 0;
+            if (appliedDiscount) {
+                discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
+            }
+            
+            var subtotalAfterDiscount = subtotal - discountAmount;
+            var tax = subtotalAfterDiscount * 0.15;
+            var total = subtotalAfterDiscount + tax;
             
             alert('Thank you for your order, ' + firstName + ' ' + lastName + '! Total: $' + total.toFixed(2));
             
-            // Clear cart
+            // Clear cart and discount
             cart = [];
+            appliedDiscount = null;
             saveCart();
+            localStorage.removeItem('appliedDiscount');
             
             // Redirect to home page
             window.location.href = 'index.html';
         }
     });
 }
-
-
-
