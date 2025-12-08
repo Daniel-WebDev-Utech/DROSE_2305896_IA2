@@ -776,32 +776,56 @@ function initCheckoutForm() {
         
         // If valid, complete booking
         if (isValid) {
-            // ARITHMETIC: Calculate total for confirmation
-            var subtotal = 0;
-            for (var i = 0; i < cart.length; i++) {
-                subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
+            // Check if invoice system is available
+            if (typeof processCheckoutWithInvoice === 'function') {
+                // Use invoice system if available
+                var shippingInfo = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    address: address,
+                    city: city,
+                    parish: parish
+                };
+                
+                var success = processCheckoutWithInvoice(shippingInfo);
+                
+                if (success) {
+                    // Show success message
+                    alert(`Thank you for your order!\n\nInvoice has been generated and saved.\nCheck the console for details.`);
+                    
+                    // Redirect to home after delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                }
+            } else {
+                // Fallback to original checkout process if invoice system is not available
+                // ARITHMETIC: Calculate total for confirmation
+                var subtotal = 0;
+                for (var i = 0; i < cart.length; i++) {
+                    subtotal = subtotal + (Number(cart[i].price) * cart[i].quantity);
+                }
+                
+                var discountAmount = 0;
+                if (appliedDiscount) {
+                    discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
+                }
+                
+                var subtotalAfterDiscount = subtotal - discountAmount;
+                var tax = subtotalAfterDiscount * 0.15;
+                var total = subtotalAfterDiscount + tax;
+                
+                alert('Thank you for your order, ' + firstName + ' ' + lastName + '! Total: $' + total.toFixed(2));
+                
+                // Clear cart and discount
+                cart = [];
+                appliedDiscount = null;
+                saveCart();
+                localStorage.removeItem('appliedDiscount');
+                
+                // Redirect to home page
+                window.location.href = 'index.html';
             }
-            
-            var discountAmount = 0;
-            if (appliedDiscount) {
-                discountAmount = calculateDiscount(subtotal, appliedDiscount.code);
-            }
-            
-            var subtotalAfterDiscount = subtotal - discountAmount;
-            var tax = subtotalAfterDiscount * 0.15;
-            var total = subtotalAfterDiscount + tax;
-            
-            alert('Thank you for your order, ' + firstName + ' ' + lastName + '! Total: $' + total.toFixed(2));
-            
-            // Clear cart and discount
-            cart = [];
-            appliedDiscount = null;
-            saveCart();
-            localStorage.removeItem('appliedDiscount');
-            
-            // Redirect to home page
-            window.location.href = 'index.html';
         }
     });
 }
-
