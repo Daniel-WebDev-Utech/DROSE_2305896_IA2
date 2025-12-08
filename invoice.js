@@ -383,40 +383,8 @@ function processCheckoutWithInvoice(shippingInfo) {
    INITIALIZATION
    ============================================ */
 
-// Initialize invoice system
-function initInvoiceSystem() {
-    console.log('Initializing invoice system...');
-    
-    // Override checkout form submission to include invoice generation
-    const checkoutForm = document.getElementById('checkoutForm');
-    if (checkoutForm) {
-        checkoutForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get shipping info
-            const shippingInfo = {
-                firstName: document.getElementById('shippingFirstName').value,
-                lastName: document.getElementById('shippingLastName').value,
-                address: document.getElementById('shippingAddress').value,
-                city: document.getElementById('shippingCity').value,
-                parish: document.getElementById('shippingParish').value
-            };
-            
-            // Process checkout with invoice
-            const success = processCheckoutWithInvoice(shippingInfo);
-            
-            if (success) {
-                // Show success message
-                alert(`Thank you for your order!\n\nInvoice has been generated and saved.\nCheck the console for details.`);
-                
-                // Redirect to home after delay
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 3000);
-            }
-        });
-    }
-}
+// The initInvoiceSystem function has been removed to prevent conflicts
+// The checkout form is now handled by script.js
 
 // Make functions available globally
 window.generateInvoiceId = generateInvoiceId;
@@ -426,7 +394,6 @@ window.showInvoiceInConsole = showInvoiceInConsole;
 window.showAllInvoices = showAllInvoices;
 window.showUserInvoices = showUserInvoices;
 window.processCheckoutWithInvoice = processCheckoutWithInvoice;
-window.initInvoiceSystem = initInvoiceSystem;
 window.getCurrentUser = getCurrentUser;
 window.getUserTRN = getUserTRN;
 window.getUserEmail = getUserEmail;
