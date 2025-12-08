@@ -316,19 +316,23 @@ document.addEventListener('DOMContentLoaded', function() {
 /* ============================================
    IA#2 (d) - SHOPPING CART
    ============================================ */
-function initCart() {
-    var addButtons = document.querySelectorAll('.add-to-cart-btn');
-    
-    for (var i = 0; i < addButtons.length; i++) {
-        addButtons[i].addEventListener('click', function() {
-            var id = this.getAttribute('data-id');
-            var name = this.getAttribute('data-name');
-            var price = this.getAttribute('data-price');
-            
-            addToCart(id, name, price);
-        });
-    }
+function initCheckout() {
+    var checkoutBtn = document.getElementById('checkoutBtn');
+    var clearCartBtn = document.getElementById('clear-cart');  // ← FIXED HERE
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function() {
+            checkout();
+        });
+    }
+    
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', function() {
+            clearCart();  
+        });
+    }
 }
+
 /* Add item to cart */
 function addToCart(id, name, price) {
     var found = false;
@@ -807,3 +811,4 @@ function initCheckoutForm() {
         }
     });
 }
+
