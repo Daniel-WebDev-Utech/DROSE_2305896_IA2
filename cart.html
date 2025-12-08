@@ -41,48 +41,57 @@
     </section>
 
     <!-- Cart Section -->
-    <section class="cart-section">
-        <div class="container">
-            <div class="cart-container">
-                
-                <!-- Cart Items -->
-                <div class="cart-items" id="cartItems">
-                    <p>Your cart is empty.</p>
+<section class="cart-section">
+    <div class="container">
+        <div class="cart-container">
+            
+            <!-- Cart Items -->
+            <div class="cart-items" id="cartItems">
+                <p>Your cart is empty.</p>
+            </div>
+
+            <!-- Discount Code Section -->
+            <div class="discount-section">
+                <h3>Discount Code</h3>
+                <div class="discount-input-group">
+                    <input type="text" id="discountCodeInput" placeholder="Enter promo code" />
+                    <button type="button" id="applyDiscountBtn" class="btn btn-outline">Apply</button>
+                </div>
+                <div id="appliedDiscountInfo" class="applied-discount" style="display: none; margin-top: 10px; color: green; font-weight: bold;"></div>
+                <button type="button" id="removeDiscountBtn" style="display: none; margin-top: 5px; color: #d32f2f; background: none; border: none; font-size: 0.9em; text-decoration: underline; cursor: pointer;">
+                    Remove discount
+                </button>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Discount:</span>
+                    <span id="discount">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (GCT 15%):</span>
+                    <span id="tax">$0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
                 </div>
 
-                <!-- Cart Summary -->
-                <div class="cart-summary">
-                    <h3>Order Summary</h3>
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span id="subtotal">$0.00</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax (GCT 15%):</span>
-                        <span id="tax">$0.00</span>
-                    </div>
-					
-   
-					<div class="summary-row">
-                        <span>Discount 20%: </span>
-                        <span id="discount">$0.00
-						</div>
-                    <div class="summary-row total">
-                        <span>Total:</span>
-                        <span id="total">$0.00</span>
-                    </div>
-                    <div class="cart-actions">
-                        <a href="products.html" class="btn btn-secondary">Continue Shopping</a>
-                        <button type="button" class="btn btn-primary" id="checkoutBtn">Proceed to Checkout</button>
-       				   <button id="clear-cart" class="btn">Clear All</button>
-		
-                    </div>
+                <div class="cart-actions">
+                    <a href="products.html" class="btn btn-secondary">Continue Shopping</a>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn">Proceed to Checkout</button>
+                    <button type="button" id="clear-cart" class="btn btn-danger">Clear Cart</button>
                 </div>
-
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -113,6 +122,7 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
