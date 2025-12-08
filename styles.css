@@ -1,6 +1,7 @@
 /* CSS for StudyStay Housing Website */
 /* Student: Justine Burreell 2304959  Module: CIT2011 */
-
+/* Student: Daniel Rose 2305896 Module: CIT2011 */
+/* Student: Shavon Mitchener - 2300712 */
 /* CSS Variables */
 :root {
   --primary-color: #2c3e50;
@@ -51,53 +52,25 @@ p {
   color: var(--text-light);
 }
 
-body {
-      font-family: Arial, sans-serif;
-       max-width: 600px;
-      margin: 50px auto;
-     padding: 20px;
+
+        
+.btn-remove-all {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+        
+.btn-remove-all:hover {
+  background-color: #c82333;
  }
-   .container {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #f9f9f9;
-   }
-        
-        h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        li {
-            background: white;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 4px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .btn-remove-all {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        
-        .btn-remove-all:hover {
-        background-color: #c82333;
- }
+
 .btn-remove-all:disabled {
- background-color: #ccc;
+  background-color: #ccc;
   cursor: not-allowed;
  }
 
@@ -798,4 +771,5 @@ body {
     width: 100%;
   }
 }
+
 
