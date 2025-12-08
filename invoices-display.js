@@ -22,6 +22,32 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
+// Function to get current user with multiple fallbacks
+function getCurrentUser() {
+    // First check if user is logged in (from sessionStorage)
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        try {
+            const user = JSON.parse(loggedInUser);
+            if (user && (user.email || user.trn)) {
+                return user;
+            }
+        } catch (e) {
+            console.error('Error parsing loggedInUser:', e);
+        }
+    }
+    
+    // Fall back to localStorage values
+    const email = localStorage.getItem('currentUserEmail') || 
+                  localStorage.getItem('registeredUserEmail');
+    
+    if (email) {
+        return { email: email };
+    }
+    
+    return null;
+}
+
 // Function to display invoice details
 function displayInvoiceDetails(invoice) {
     return `
@@ -30,6 +56,7 @@ function displayInvoiceDetails(invoice) {
                 <h3>Customer Information</h3>
                 <p><strong>Name:</strong> ${invoice.user.firstName} ${invoice.user.lastName}</p>
                 <p><strong>Email:</strong> ${invoice.user.email}</p>
+                ${invoice.user.trn ? `<p><strong>TRN:</strong> ${invoice.user.trn}</p>` : ''}
             </div>
             
             <div class="invoice-section">
@@ -89,19 +116,25 @@ function displayInvoiceDetails(invoice) {
 
 // Function to load and display invoices
 function loadAndDisplayInvoices() {
+    console.log('Loading and displaying invoices...');
+    
     const invoicesList = document.getElementById('invoicesList');
     const noInvoicesMessage = document.getElementById('noInvoicesMessage');
     
-    if (!invoicesList) return;
+    if (!invoicesList) {
+        console.error('invoicesList element not found');
+        return;
+    }
     
     // Show loading message
     invoicesList.innerHTML = '<div class="loading-message"><p>Loading your invoices...</p></div>';
     
-    // Get user's email
-    const userEmail = localStorage.getItem('currentUserEmail') || 
-                     localStorage.getItem('registeredUserEmail');
+    // Get current user
+    const currentUser = getCurrentUser();
     
-    if (!userEmail) {
+    console.log('Current user:', currentUser);
+    
+    if (!currentUser) {
         invoicesList.innerHTML = `
             <div class="error-message">
                 <h3>Please Login</h3>
@@ -113,7 +146,9 @@ function loadAndDisplayInvoices() {
     }
     
     // Get user's invoices
-    const userInvoices = getUserInvoices(userEmail);
+    const userInvoices = getUserInvoices(currentUser);
+    
+    console.log('Found invoices:', userInvoices.length);
     
     if (userInvoices.length === 0) {
         invoicesList.style.display = 'none';
@@ -121,6 +156,12 @@ function loadAndDisplayInvoices() {
             noInvoicesMessage.style.display = 'block';
         }
         return;
+    }
+    
+    // Make sure both elements are visible
+    invoicesList.style.display = 'block';
+    if (noInvoicesMessage) {
+        noInvoicesMessage.style.display = 'none';
     }
     
     // Sort invoices by date (newest first)
@@ -210,6 +251,7 @@ function printInvoice(invoiceId) {
                         <h3>Bill To:</h3>
                         <p>${invoice.user.firstName} ${invoice.user.lastName}</p>
                         <p>${invoice.user.email}</p>
+                        ${invoice.user.trn ? `<p>TRN: ${invoice.user.trn}</p>` : ''}
                     </div>
                     <div>
                         <h3>Ship To:</h3>
@@ -282,15 +324,23 @@ function initInvoicesPage() {
     // Add event listener to refresh button
     const refreshBtn = document.getElementById('refreshInvoices');
     if (refreshBtn) {
-        refreshBtn.addEventListener('click', loadAndDisplayInvoices);
+        refreshBtn.addEventListener('click', function() {
+            console.log('Refresh button clicked');
+            loadAndDisplayInvoices();
+        });
+    } else {
+        console.error('Refresh button not found');
     }
     
     // Add event listener to filter dropdown
     const filterSelect = document.getElementById('filterStatus');
     if (filterSelect) {
         filterSelect.addEventListener('change', function() {
+            console.log('Filter changed to:', this.value);
             loadAndDisplayInvoices();
         });
+    } else {
+        console.error('Filter select not found');
     }
 }
 
@@ -298,6 +348,7 @@ function initInvoicesPage() {
 window.loadAndDisplayInvoices = loadAndDisplayInvoices;
 window.printInvoice = printInvoice;
 window.initInvoicesPage = initInvoicesPage;
+window.getCurrentUser = getCurrentUser;
 
 // Initialize when DOM is loaded
 if (document.readyState === 'loading') {
