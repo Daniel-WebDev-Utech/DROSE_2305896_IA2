@@ -378,13 +378,15 @@ function removeFromCart(id) {
     updateCartDisplay();
 }
 function removeAll() {
-            const list = document.getElementById('itemList');
-            const btn = document.querySelector('.btn-remove-all');
-            
-            // Remove all list items
+   /*Connect Remove All button to clearCart function*/
+    if (removeAllBtn) {
+        removeAllBtn.addEventListener('click', function() {
+            clearCart();
+        });
+            /* Remove all list items*/
             list.innerHTML = '';
             
-            // Disable button after removing
+            /* Disable button after removing*/
             btn.disabled = true;
             btn.textContent = 'All Items Removed';
         }
@@ -725,5 +727,6 @@ function initCheckoutForm() {
         }
     });
 }
+
 
 
