@@ -16,17 +16,50 @@ function generateInvoiceId() {
     return `INV-${timestamp}-${random}`;
 }
 
-// Get current user email
-function getCurrentUserEmail() {
-    return localStorage.getItem('currentUserEmail') || 
-           localStorage.getItem('registeredUserEmail') || 
-           'guest@example.com';
+// Function to get current user with multiple fallbacks
+function getCurrentUser() {
+    // First check if user is logged in (from sessionStorage)
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        try {
+            const user = JSON.parse(loggedInUser);
+            if (user && (user.email || user.trn)) {
+                return user;
+            }
+        } catch (e) {
+            console.error('Error parsing loggedInUser:', e);
+        }
+    }
+    
+    // Fall back to localStorage values
+    const email = localStorage.getItem('currentUserEmail') || 
+                  localStorage.getItem('registeredUserEmail');
+    
+    if (email) {
+        return { email: email };
+    }
+    
+    return null;
 }
 
 // Get user's first name (from checkout or registration)
 function getUserFirstName() {
     const checkoutFirstName = document.getElementById('shippingFirstName')?.value;
     const regFirstName = document.getElementById('firstName')?.value;
+    
+    // Also check from logged in user
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        try {
+            const user = JSON.parse(loggedInUser);
+            if (user && user.firstName) {
+                return user.firstName;
+            }
+        } catch (e) {
+            console.error('Error parsing loggedInUser:', e);
+        }
+    }
+    
     return checkoutFirstName || regFirstName || 'Customer';
 }
 
@@ -34,7 +67,61 @@ function getUserFirstName() {
 function getUserLastName() {
     const checkoutLastName = document.getElementById('shippingLastName')?.value;
     const regLastName = document.getElementById('lastName')?.value;
+    
+    // Also check from logged in user
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        try {
+            const user = JSON.parse(loggedInUser);
+            if (user && user.lastName) {
+                return user.lastName;
+            }
+        } catch (e) {
+            console.error('Error parsing loggedInUser:', e);
+        }
+    }
+    
     return checkoutLastName || regLastName || '';
+}
+
+// Get user's TRN (from registration or login)
+function getUserTRN() {
+    const regTRN = document.getElementById('trn')?.value;
+    
+    // Also check from logged in user
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        try {
+            const user = JSON.parse(loggedInUser);
+            if (user && user.trn) {
+                return user.trn;
+            }
+        } catch (e) {
+            console.error('Error parsing loggedInUser:', e);
+        }
+    }
+    
+    return regTRN || '';
+}
+
+// Get user's email (from registration or login)
+function getUserEmail() {
+    const regEmail = document.getElementById('email')?.value;
+    
+    // Also check from logged in user
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        try {
+            const user = JSON.parse(loggedInUser);
+            if (user && user.email) {
+                return user.email;
+            }
+        } catch (e) {
+            console.error('Error parsing loggedInUser:', e);
+        }
+    }
+    
+    return regEmail || '';
 }
 
 /* ============================================
@@ -53,7 +140,8 @@ function generateInvoice(cartItems, shippingInfo, totalAmount) {
         user: {
             firstName: getUserFirstName(),
             lastName: getUserLastName(),
-            email: getCurrentUserEmail()
+            email: getUserEmail(),
+            trn: getUserTRN()
         },
         shipping: {
             firstName: shippingInfo.firstName,
@@ -109,14 +197,27 @@ function getAllInvoices() {
     }
 }
 
-// Get invoices for a specific user
-function getUserInvoices(email) {
+// Get invoices for a specific user (by email or TRN)
+function getUserInvoices(user) {
     const allInvoices = getAllInvoices();
-    if (!email) email = getCurrentUserEmail();
     
-    return allInvoices.filter(invoice => 
-        invoice.user.email.toLowerCase() === email.toLowerCase()
-    );
+    if (!user) {
+        return [];
+    }
+    
+    return allInvoices.filter(invoice => {
+        // Check by email if available
+        if (user.email && invoice.user.email) {
+            return invoice.user.email.toLowerCase() === user.email.toLowerCase();
+        }
+        
+        // Check by TRN if available
+        if (user.trn && invoice.user.trn) {
+            return invoice.user.trn === user.trn;
+        }
+        
+        return false;
+    });
 }
 
 /* ============================================
@@ -132,6 +233,9 @@ function showInvoiceInConsole(invoice) {
     console.log(`Date: ${new Date(invoice.date).toLocaleString()}`);
     console.log(`Customer: ${invoice.user.firstName} ${invoice.user.lastName}`);
     console.log(`Email: ${invoice.user.email}`);
+    if (invoice.user.trn) {
+        console.log(`TRN: ${invoice.user.trn}`);
+    }
     console.log('-'.repeat(40));
     console.log('SHIPPING INFORMATION:');
     console.log(`Address: ${invoice.shipping.address}`);
@@ -176,11 +280,11 @@ function showAllInvoices() {
 
 // Display user's invoices in console
 function showUserInvoices() {
-    const userEmail = getCurrentUserEmail();
-    const userInvoices = getUserInvoices(userEmail);
+    const user = getCurrentUser();
+    const userInvoices = getUserInvoices(user);
     
     console.log('='.repeat(50));
-    console.log(`INVOICES FOR: ${userEmail}`);
+    console.log(`INVOICES FOR: ${user.email || user.trn}`);
     console.log(`FOUND: ${userInvoices.length} invoice(s)`);
     console.log('='.repeat(50));
     
@@ -323,5 +427,8 @@ window.showAllInvoices = showAllInvoices;
 window.showUserInvoices = showUserInvoices;
 window.processCheckoutWithInvoice = processCheckoutWithInvoice;
 window.initInvoiceSystem = initInvoiceSystem;
+window.getCurrentUser = getCurrentUser;
+window.getUserTRN = getUserTRN;
+window.getUserEmail = getUserEmail;
 
 console.log('Invoice system loaded successfully');
