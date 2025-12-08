@@ -24,6 +24,7 @@ function showError(inputId, message) {
         var error = document.createElement('span');
         error.className = 'error-message';
         error.textContent = message;
+        error.id = inputId + '-error'; // Add ID for easier targeting
         input.parentNode.appendChild(error);
     }
 }
@@ -81,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initCart();
     initCheckout();
     initCheckoutForm();
-    initRemoveAllButton();
     initDiscountCode();
     updateCartCount();
     updateCartDisplay();
@@ -392,16 +392,6 @@ function removeFromCart(id) {
     saveCart();
     updateCartCount();
     updateCartDisplay();
-}
-/* Initialize Remove All Button */
-function initRemoveAllButton() {
-    var removeAllBtn = document.getElementById('removeAllBtn');
-    
-    if (removeAllBtn) {
-        removeAllBtn.addEventListener('click', function() {
-            clearCart();
-        });
-    }
 }
 /* Clear all items from cart */
 function clearCart() {
