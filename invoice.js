@@ -1,5 +1,4 @@
-/* Student: Daniel Rose - 2305896 | Module: CIT2011 */
-/* Student: Shavon Mitchener - 2300712 */
+/* Student: Shavon Mitchener - 2300712 | Module: CIT2011 */
 /* INVOICE SYSTEM - Group Assignment */
 
 /* ============================================
@@ -339,6 +338,17 @@ function displayReceiptMessage(invoice) {
 
 // Process checkout and generate invoice
 function processCheckoutWithInvoice(shippingInfo) {
+    // *** CRITICAL FIX: Check if user is logged in first ***
+    const loggedInUserStr = sessionStorage.getItem('loggedInUser');
+    if (!loggedInUserStr) {
+        alert('You must be logged in to complete a purchase. Please log in and try again.');
+        // Redirect to login page after a short delay
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
+        return false;
+    }
+
     // Get cart from global variable (from script.js)
     if (typeof cart === 'undefined' || cart.length === 0) {
         alert('Your cart is empty!');
