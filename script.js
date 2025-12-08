@@ -413,7 +413,7 @@ function updateCartDisplay() {
         return;
     }
     
-    // ARITHMETIC: Calculate subtotal
+    /*ARITHMETIC: Calculate subtotal*/
     var subtotal = 0;
     for (var i = 0; i < cart.length; i++) {
         var itemPrice = Number(cart[i].price);
@@ -421,13 +421,84 @@ function updateCartDisplay() {
         subtotal = subtotal + (itemPrice * itemQty);
     }
     
-    // ARITHMETIC: Calculate tax (GCT 15%)
+    /*ARITHMETIC: Calculate tax (GCT 15%) */
     var tax = subtotal * 0.15;
+
+  /* Discount code database - store valid promo codes*/
+const discountCodes = {
+    'SAVE10': { type: 'percentage', value: 10, description: '10% off' },
+    'SAVE20': { type: 'percentage', value: 20, description: '20% off' },
+    'STUDENT15': { type: 'percentage', value: 15, description: '15% student discount' },
+    'FLAT50': { type: 'fixed', value: 50, description: '$50 off' },
+    'WELCOME': { type: 'percentage', value: 25, description: '25% welcome discount' }
+};
+   
+   /* Function to calculate discount amount*/
+function calculateDiscount(subtotal, discountCode) {
+    const discount = discountCodes[discountCode.toUpperCase()];
     
-    // ARITHMETIC: Calculate total
+    if (!discount) {
+        return 0;
+    }
+    
+    if (discount.type === 'percentage') {
+        // Calculate percentage discount
+        return (subtotal * discount.value) / 100;
+    } else if (discount.type === 'fixed') {
+        // Fixed amount discount (but not more than subtotal)
+        return Math.min(discount.value, subtotal);
+    }
+    
+    return 0;
+}
+
+/* Function to apply discount code*/
+function applyDiscountCode() {
+    const discountInput = document.getElementById('discount-code');
+    const discountCode = discountInput.value.trim().toUpperCase();
+    const messageDiv = document.getElementById('discount-message');
+    
+    /*Validate discount code*/
+    if (!discountCode) {
+        showDiscountMessage('Please enter a discount code', 'error');
+        return;
+    }
+    
+    if (!discountCodes[discountCode]) {
+        showDiscountMessage('Invalid discount code', 'error');
+        return;
+    }
+    
+    /* Calculate discount*/
+    const subtotal = calculateSubtotal();
+    const discountAmount = calculateDiscount(subtotal, discountCode);
+    
+    if (discountAmount === 0) {
+        showDiscountMessage('Discount cannot be applied to this order', 'error');
+        return;
+    }
+    
+    /*Store applied discount*/
+    appliedDiscount = {
+        code: discountCode,
+        amount: discountAmount,
+        description: discountCodes[discountCode].description
+    };
+    
+    /*Save to localStorage*/
+    localStorage.setItem('appliedDiscount', JSON.stringify(appliedDiscount));
+    
+    /* Update UI*/
+    showDiscountMessage(`${discountCodes[discountCode].description} applied successfully!`, 'success');
+    discountInput.value = '';
+    updateCartSummary();
+    showAppliedDiscount();
+}
+    
+    /* ARITHMETIC: Calculate total*/
     var total = subtotal + tax;
     
-    // DOM MANIPULATION: Update summary display
+    /* DOM MANIPULATION: Update summary display*/
     if (subtotalElement) {
         subtotalElement.textContent = '$' + subtotal.toFixed(2);
     }
@@ -438,13 +509,13 @@ function updateCartDisplay() {
         totalElement.textContent = '$' + total.toFixed(2);
     }
     
-    // Check if cart is empty
+    /* Check if cart is empty*/
     if (cart.length === 0) {
         cartContainer.innerHTML = '<p>Your cart is empty.</p>';
         return;
     }
     
-    // Build cart items HTML
+    /* Build cart items HTML*/
     var html = '';
     
     for (var j = 0; j < cart.length; j++) {
@@ -654,4 +725,5 @@ function initCheckoutForm() {
         }
     });
 }
+
 
